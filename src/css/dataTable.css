@@ -1,0 +1,25 @@
+table {
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 1px black;
+  border-collapse: collapse;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  background: white;
+}
+
+tr {
+  height: 70px;
+}
+
+th {
+  border-bottom: 1px solid #CCF2F4;
+}
+
+td {
+  padding: 10px;
+  vertical-align: middle;
+}
+
+tr:not(:last-child) > td {
+  border-bottom: 1px solid black;
+}
