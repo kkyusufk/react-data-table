@@ -1,7 +1,8 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './css/index.css';
-import './css/dataTable.css'
+import './css/dataTable.css';
+import './css/loader.css'
 import reportWebVitals from './reportWebVitals';
 import { DataTable } from './components/DataTable';
 
@@ -21,10 +22,14 @@ const Columns = [
 
 const App = () => {
   const [data, setData] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
   useLayoutEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
+    setTimeout(() => fetch('https://jsonplaceholder.typicode.com/posts')
       .then(response => response.json())
-      .then(data => setData(data))
+      .then(data => { 
+        setData(data)
+        setIsLoading(false);
+      }), 1500)
   }, [])
 
   useEffect(() => {
@@ -35,6 +40,7 @@ const App = () => {
     <DataTable
       columns={Columns} 
       rows={data}
+      loading={isLoading}
     />
   )
 }

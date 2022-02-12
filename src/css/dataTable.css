@@ -5,6 +5,7 @@ table {
   border-collapse: collapse;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   background: white;
+  width: 100%;
 }
 
 tr {

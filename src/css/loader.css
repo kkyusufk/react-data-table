@@ -1,0 +1,5 @@
+.loader {
+  width: inherit;
+  display: flex;
+  justify-content: center;
+}

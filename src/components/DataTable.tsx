@@ -1,4 +1,5 @@
 import React from 'react';
+import { Loader } from './Loader';
 
 interface Column {
   id: string;
@@ -15,6 +16,7 @@ interface Row {
 interface DataTableProps {
   columns: Array<Column>;
   rows: Array<Row>;
+  loading?: boolean;
   onRowClick?: () => void;
   onSelectionChange?: () => void;
 }
@@ -22,6 +24,7 @@ interface DataTableProps {
 export const DataTable = ({
   columns,
   rows,
+  loading,
   onRowClick,
   onSelectionChange
 }: DataTableProps) => {
@@ -40,6 +43,7 @@ export const DataTable = ({
         </tr>
         </thead>
       <tbody>
+      <Loader isLoading={loading} />
       {rows.map(row => {
         return <tr key={row.id}>
           {columnIds.map(id => {
