@@ -32,6 +32,11 @@ const App = () => {
       }), 1500)
   }, [])
 
+  // for testing only
+  const onRowClick = (rowData: object, rowIndex: number) => {
+    console.log(rowData, rowIndex)
+  }
+
   useEffect(() => {
     console.log(data)
   }, [data])
@@ -41,6 +46,7 @@ const App = () => {
       columns={Columns} 
       rows={data}
       loading={isLoading}
+      onRowClick={onRowClick}
     />
   )
 }
