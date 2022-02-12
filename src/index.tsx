@@ -1,8 +1,49 @@
-import React from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './css/index.css';
+import './css/dataTable.css';
+import './css/loader.css'
 import reportWebVitals from './reportWebVitals';
+import { DataTable } from './components/DataTable';
+
+const Columns = [
+  {
+    id: 'title',
+    label: 'Title',
+    numeric: false,
+    width: '200px'
+  },
+  {
+    id: 'body',
+    label: 'Body',
+    numeric: false,
+  }
+]
+
+const App = () => {
+  const [data, setData] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
+  useLayoutEffect(() => {
+    setTimeout(() => fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(response => response.json())
+      .then(data => { 
+        setData(data)
+        setIsLoading(false);
+      }), 1500)
+  }, [])
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
+
+  return (
+    <DataTable
+      columns={Columns} 
+      rows={data}
+      loading={isLoading}
+    />
+  )
+}
 
 ReactDOM.render(
   <React.StrictMode>
