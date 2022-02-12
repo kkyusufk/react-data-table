@@ -45,8 +45,7 @@ export const DataTable = ({
       <tbody>
       <Loader isLoading={loading} />
       {rows.map((row, index) => {
-        // @ts-expect-error possibly null
-        return <tr key={row.id || index} onClick={() => onRowClick(row, index)}>
+        return <tr key={row.id || index} onClick={() => onRowClick && onRowClick(row, index)}>
           {columnIds.map(id => {
               return <td key={id}>{row[id]}</td>
             })}
