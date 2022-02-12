@@ -17,7 +17,7 @@ interface DataTableProps {
   columns: Array<Column>;
   rows: Array<Row>;
   loading?: boolean;
-  onRowClick?: () => void;
+  onRowClick?: (rowData: object, rowIndex: number) => void;
   onSelectionChange?: () => void;
 }
 
@@ -44,8 +44,9 @@ export const DataTable = ({
         </thead>
       <tbody>
       <Loader isLoading={loading} />
-      {rows.map(row => {
-        return <tr key={row.id}>
+      {rows.map((row, index) => {
+        // @ts-expect-error possibly null
+        return <tr key={row.id || index} onClick={() => onRowClick(row, index)}>
           {columnIds.map(id => {
               return <td key={id}>{row[id]}</td>
             })}
