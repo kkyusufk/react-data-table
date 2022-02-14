@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent, ReactEventHandler, SyntheticEvent, useState } from 'react';
 import { Loader } from './Loader';
 
 interface Column {
@@ -18,7 +18,7 @@ interface DataTableProps {
   rows: Array<Row>;
   loading?: boolean;
   onRowClick?: (rowData: object, rowIndex: number) => void;
-  onSelectionChange?: () => void;
+  onSelectionChange?: (selectedRows: Array<string> | 'All') => void;
 }
 
 export const DataTable = ({
@@ -28,11 +28,27 @@ export const DataTable = ({
   onRowClick,
   onSelectionChange
 }: DataTableProps) => {
+  const [checkBoxState, setCheckBoxState] = useState(new Array(500).fill(false))
+
+  const onSelectAllRows = (e: any) => {
+    const newState = [...checkBoxState];
+    const modifiedNewState = newState.map(value => e.target.checked);
+    setCheckBoxState(modifiedNewState);
+    onSelectionChange && onSelectionChange('All');
+  }
+
+  const onSelectRow = (rowId: number) => {
+    const newState = [...checkBoxState];
+    newState[rowId] = !newState[rowId];
+    setCheckBoxState(newState);
+  }
+
   const columnIds = columns.map(column => column.id);
   return (
     <table>
         <thead>
           <tr>
+            <th><input type="checkbox" onChange={onSelectAllRows} /></th>
         {columns.map(column => {
           return (
           <th key={column.id} style={{ width: `${column.width ? column.width : 'inherit'}` }}>
@@ -43,14 +59,15 @@ export const DataTable = ({
         </tr>
         </thead>
       <tbody>
-      <Loader isLoading={loading} />
       {rows.map((row, index) => {
         return <tr key={row.id || index} onClick={() => onRowClick && onRowClick(row, index)}>
+          <td><input type="checkbox" onChange={() => onSelectRow(index)} value={row.id} checked={checkBoxState[index]} /></td>
           {columnIds.map(id => {
               return <td key={id}>{row[id]}</td>
             })}
           </tr>
       })}
+      <Loader isLoading={loading} />
       </tbody>
     </table>
   )
